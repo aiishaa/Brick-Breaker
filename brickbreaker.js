@@ -39,12 +39,22 @@ function update() {
     context.fillRect(player.x, player.y, player.width, player.height);
 }
 
+function outOfBounds(xPosition) {
+    return (xPosition < 0 || xPosition + playerWidth > boardWidth);
+}
 
 function movePlayer(e) {
     if (e.code == "ArrowLeft") {
-         player.x -= player.velocityX;
+        let nextplayerX = player.x - player.velocityX;
+        if (!outOfBounds(nextplayerX)) {
+            player.x = nextplayerX;
+        }
     }
     else if (e.code == "ArrowRight") {
-        player.x += player.velocityX;
+        let nextplayerX = player.x + player.velocityX;
+        if (!outOfBounds(nextplayerX)) {
+            player.x = nextplayerX;
+        }
+       
     }
     }
