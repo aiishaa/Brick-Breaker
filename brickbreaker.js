@@ -14,7 +14,7 @@ let player = {
     y : boardHeight - playerHeight - 5,
     width: playerWidth,
     height: playerHeight,
-
+    velocityX : playerVelocityX
 }
 
 window.onload = function() {
@@ -28,13 +28,23 @@ window.onload = function() {
     context.fillRect(player.x, player.y, player.width, player.height);
 
     requestAnimationFrame(update);
-
+    document.addEventListener("keydown", movePlayer);
 }
 
 function update() {
     requestAnimationFrame(update);
- 
+    context.clearRect(0, 0, board.width, board.height);
     // player
     context.fillStyle = "lightgreen";
     context.fillRect(player.x, player.y, player.width, player.height);
 }
+
+
+function movePlayer(e) {
+    if (e.code == "ArrowLeft") {
+         player.x -= player.velocityX;
+    }
+    else if (e.code == "ArrowRight") {
+        player.x += player.velocityX;
+    }
+    }
