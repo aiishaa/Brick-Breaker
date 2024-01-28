@@ -7,7 +7,7 @@ let context;
 //playerbar
 let playerWidth = 80; 
 let playerHeight = 10;
-
+let playerVelocityX = 10; 
 
 let player = {
     x : boardWidth/2 - playerWidth/2,
