@@ -17,6 +17,20 @@ let player = {
     velocityX : playerVelocityX
 }
 
+let ball_width = 10;
+let ball_height = 10;
+let ball_velocityX = 5;
+let ball_velocityY = 5;
+
+let ball = {
+    x: boardWidth/2,
+    y: boardHeight/2,
+    width: ball_width,
+    heigth: ball_height,
+    velocityX: ball_velocityX,
+    velocityY: ball_velocityY
+}
+
 window.onload = function() {
     board = document.getElementById("board");
     board.height = boardHeight;
@@ -34,9 +48,14 @@ window.onload = function() {
 function update() {
     requestAnimationFrame(update);
     context.clearRect(0, 0, board.width, board.height);
+
     // player
     context.fillStyle = "lightgreen";
     context.fillRect(player.x, player.y, player.width, player.height);
+
+    // ball
+    context.fillStyle = "white";
+    context.fillRect(ball.x, ball.y, ball.width, ball.heigth);
 }
 
 function outOfBounds(xPosition) {
@@ -57,4 +76,5 @@ function movePlayer(e) {
         }
        
     }
-    }
+}
+
