@@ -73,7 +73,7 @@ function update() {
         // game over
     }
 
-    // Bounce the ball off the paddle
+    // Bouncing the ball off the paddle
     if (topCollision(ball, player) || bottomCollision(ball, player)) {
         ball.ballVelocityY *= -1;   // flip y direction up or down
     }
