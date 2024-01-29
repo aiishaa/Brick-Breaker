@@ -18,17 +18,17 @@ let player = {
 }
 
 let ball_width = 10;
-let ball_height = 10;
-let ball_velocityX = 5;
-let ball_velocityY = 5;
+let ball_length = 10;
+let ball_velocityX = 3;
+let ball_velocityY = 2;
 
 let ball = {
-    x: boardWidth/2,
-    y: boardHeight/2,
+    point_x: boardWidth/2,
+    point_y: boardHeight/2,
     width: ball_width,
-    heigth: ball_height,
-    velocityX: ball_velocityX,
-    velocityY: ball_velocityY
+    length: ball_length,
+    ballVelocityX: ball_velocityX,
+    ballVelocityY: ball_velocityY
 }
 
 window.onload = function() {
@@ -53,11 +53,26 @@ function update() {
     context.fillStyle = "lightgreen";
     context.fillRect(player.x, player.y, player.width, player.height);
 
-    // ball
+    // Draw the ball
     context.fillStyle = "white";
-    ball.x += ball.velocityX;
-    ball.y += ball.velocityY;
-    context.fillRect(ball.x, ball.y, ball.width, ball.heigth);
+    ball.point_x += ball.ballVelocityX;
+    ball.point_y += ball.ballVelocityY;
+    context.fillRect(ball.point_x, ball.point_y, ball.width, ball.length);
+
+    // Bounce the ball off the wall
+    
+    // if the ball touch the top corner of the canvas
+    if (ball.point_y == 0) { 
+        // if ball touches top of canvas
+        ball.ballVelocityY *= -1; //reverse direction
+    }
+    else if (ball.point_x == 0 || (ball.point_x + ball.width == boardWidth)) {
+        // if ball touches left or right of canvas
+        ball.ballVelocityX *= -1; //reverse direction
+    }
+    else if((ball.point_y + ball.length) == boardHeight){
+        // game over
+    }
 }
 
 function outOfBounds(xPosition) {
