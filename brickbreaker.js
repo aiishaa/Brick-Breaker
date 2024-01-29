@@ -18,7 +18,7 @@ let player = {
 }
 
 let ball_width = 10;
-let ball_length = 10;
+let ball_height = 10;
 let ball_velocityX = 3;
 let ball_velocityY = 2;
 
@@ -26,7 +26,7 @@ let ball = {
     point_x: boardWidth/2,
     point_y: boardHeight/2,
     width: ball_width,
-    length: ball_length,
+    height: ball_height,
     ballVelocityX: ball_velocityX,
     ballVelocityY: ball_velocityY
 }
@@ -57,7 +57,7 @@ function update() {
     context.fillStyle = "white";
     ball.point_x += ball.ballVelocityX;
     ball.point_y += ball.ballVelocityY;
-    context.fillRect(ball.point_x, ball.point_y, ball.width, ball.length);
+    context.fillRect(ball.point_x, ball.point_y, ball.width, ball.height);
 
     // Bounce the ball off the wall
     
@@ -70,7 +70,7 @@ function update() {
         // if ball touches left or right of canvas
         ball.ballVelocityX *= -1; //reverse direction
     }
-    else if((ball.point_y + ball.length) == boardHeight){
+    else if((ball.point_y + ball.height) == boardHeight){
         // game over
     }
 }
@@ -95,3 +95,9 @@ function movePlayer(e) {
     }
 }
 
+function detectCollision(my_ball, my_paddle){
+    return (my_ball.point_x + my_ball.width) > my_paddle.x  // the ball's top right corner passes the paddle's top left corner 
+    && (my_ball.point_x < (my_paddle.point_x + my_paddle.width))  // the ball's top left corner doesn't exceed the paddle's right top corner
+    && ((my_ball.point_y + my_ball.height) > my_paddle.y)   // the ball's bottom left corner passes the paddle's left corner
+    && (my_ball.point_y < (my_paddle.y + my_paddle.height)) // the ball's top left corner doesn't exceed the paddle's bottom left corner
+}
