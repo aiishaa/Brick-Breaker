@@ -55,6 +55,8 @@ function update() {
 
     // ball
     context.fillStyle = "white";
+    ball.x += ball.velocityX;
+    ball.y += ball.velocityY;
     context.fillRect(ball.x, ball.y, ball.width, ball.heigth);
 }
 
