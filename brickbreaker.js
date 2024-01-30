@@ -45,7 +45,6 @@ let blockX = 15;
 let blockY = 45;
 
 let score = 0;
-let gameOver = false;
 
 
 window.onload = function() {
@@ -114,6 +113,7 @@ function update() {
                 ball.velocityY *= -1;   // flip y direction up or down
                 score += 100;
                 blockCount -= 1;
+                score += 100;
             }
             else if (leftCollision(ball, block) || rightCollision(ball, block)) 
             {
@@ -121,10 +121,13 @@ function update() {
                 ball.velocityX *= -1;   // flip x direction left or right
                 score += 100;
                 blockCount -= 1;
+                score += 100;
             }
             context.fillRect(block.x, block.y, block.width, block.height);
         }
     }
+    context.font = "20px sans-serif";
+    context.fillText(score, 10, 25);
 }
 
 function outOfBounds(xPosition) {
