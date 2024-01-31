@@ -136,6 +136,16 @@ function update() {
             context.fillRect(block.x, block.y, block.width, block.height);
         }
     }
+
+    //create new levels after breaking all block
+    if(blockCount == 0){
+        //adding bonus for clearing the blocks (100 point for each block)
+        score+= 100*blockColumns*blockRows;
+        //increase the number of rows of blocks for the next level
+        blockRows = Math.min(blockRows + 1, blockMaxRows);
+        //create new blocks
+        createBlocks();
+    }
     context.font = "20px sans-serif";
     context.fillText(score, 10, 25);
 }
@@ -233,6 +243,8 @@ function restartGame(){
     blockArray = [];
     //reset the score
     score = 0;
+    //reset block
+    blockRows = 3;
     //recreate blocks
     createBlocks();
 }
