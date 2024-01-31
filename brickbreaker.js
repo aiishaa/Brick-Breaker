@@ -46,6 +46,8 @@ let blockY = 45;
 
 let score = 0;
 
+// to handle game over
+let gameOver = false;
 
 window.onload = function() {
     board = document.getElementById("board");
@@ -66,6 +68,10 @@ window.onload = function() {
 
 function update() {
     requestAnimationFrame(update);
+    //check if the game is over -> return
+    if(gameOver){
+        return;
+    }
     context.clearRect(0, 0, board.width, board.height);
 
     // player
@@ -89,7 +95,12 @@ function update() {
         ball.ballVelocityX *= -1; //reverse direction
     }
     else if((ball.point_y + ball.height) == boardHeight){
-        // game over
+        //if ball touches bottom of canvas -> game over
+        context.font = "20 px sans-serif";
+        //print the message of game over
+        context.fillText("Game Over! \nPress Space to Restart.",80,400)
+        //change the value of game over to true
+        gameOver = true;
     }
 
     // Bouncing the ball off the paddle
@@ -134,6 +145,13 @@ function outOfBounds(xPosition) {
 }
 
 function movePlayer(e) {
+    //if the game is over and pressed space -> restart the game 
+    if(gameOver){
+        if(e.code == "Space"){
+            restartGame();
+        }
+    }
+
     if (e.code == "ArrowLeft") {
         let nextplayerX = player.x - player.velocityX;
         if (!outOfBounds(nextplayerX)) {
@@ -188,4 +206,33 @@ function createBlocks() {
         }
     }
     blockCount = blockArray.length;
+}
+
+//function to restart the game after gameOver
+function restartGame(){
+    //change the flag to false
+    gameOver = false;
+    //return player to the start position 
+    player = {
+        x : boardWidth/2 - playerWidth/2,
+        y : boardHeight - playerHeight - 5,
+        width: playerWidth,
+        height: playerHeight,
+        velocityX : playerVelocityX
+    }
+    //return the ball to the start position
+    ball = {
+        point_x: boardWidth/2,
+        point_y: boardHeight/2,
+        width: ball_width,
+        height: ball_height,
+        ballVelocityX: ball_velocityX,
+        ballVelocityY: ball_velocityY
+    }
+    //reset block array
+    blockArray = [];
+    //reset the score
+    score = 0;
+    //recreate blocks
+    createBlocks();
 }
