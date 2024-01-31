@@ -110,18 +110,17 @@ function update() {
             if (topCollision(ball, block) || bottomCollision(ball, block)) 
             {
                 block.break = true;     // block is broken
-                ball.velocityY *= -1;   // flip y direction up or down
+                ball.ballVelocityY *= -1;   // flip y direction up or down
                 score += 100;
                 blockCount -= 1;
-                score += 100;
+               
             }
             else if (leftCollision(ball, block) || rightCollision(ball, block)) 
             {
                 block.break = true;     // block is broken
-                ball.velocityX *= -1;   // flip x direction left or right
+                ball.ballVelocityX *= -1;   // flip x direction left or right
                 score += 100;
                 blockCount -= 1;
-                score += 100;
             }
             context.fillRect(block.x, block.y, block.width, block.height);
         }
