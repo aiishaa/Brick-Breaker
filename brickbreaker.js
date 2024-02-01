@@ -126,7 +126,9 @@ function update() {
                 ball.ballVelocityY *= -1;   // flip y direction up or down
                 score += 100;
                 blockCount -= 1;
-               
+
+                // play the brick hit sound
+                BrickHitSound();
             }
             else if (leftCollision(ball, block) || rightCollision(ball, block)) 
             {
@@ -134,6 +136,9 @@ function update() {
                 ball.ballVelocityX *= -1;   // flip x direction left or right
                 score += 100;
                 blockCount -= 1;
+
+                // play the brick hit sound
+                BrickHitSound()
             }
             context.fillRect(block.x, block.y, block.width, block.height);
         }
@@ -265,4 +270,15 @@ function restartGame(){
     blockRows = 3;
     //recreate blocks
     createBlocks();
+}
+
+// play the brick hit sound
+function BrickHitSound() {
+    const brickHitSound = document.getElementById("brickHitSound");
+
+    // Check if the sound is already playing, and if not, play it
+    if (brickHitSound.paused || brickHitSound.ended) {
+        brickHitSound.currentTime = 0;
+        brickHitSound.play();
+    }
 }
