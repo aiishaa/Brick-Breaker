@@ -1,10 +1,10 @@
-//board
+//board variables
 let board;
 let boardWidth = 500;
 let boardHeight = 500;
 let context; 
 
-//playerbar
+//playerbar variables
 let playerWidth = 80; 
 let playerHeight = 10;
 let playerVelocityX = 10; 
@@ -17,9 +17,10 @@ let player = {
     velocityX : playerVelocityX
 }
 
+//ball variables
 let ball_width = 10;
 let ball_height = 10;
-let ball_velocityX = 3;
+let ball_velocityX = 4;
 let ball_velocityY = 2;
 
 let ball = {
@@ -31,7 +32,7 @@ let ball = {
     ballVelocityY: ball_velocityY
 }
 
-//blocks
+//blocks variables
 let blockArray = [];
 let blockWidth = 50;
 let blockHeight = 10;
@@ -44,6 +45,7 @@ let blockCount = 0;
 let blockX = 15;
 let blockY = 45;
 
+//scoring variable
 let score = 0;
 
 // to handle game over
@@ -104,11 +106,11 @@ function update() {
     context.clearRect(0, 0, board.width, board.height);
 
     // player
-    context.fillStyle = "pink";
+    context.fillStyle = "brown";
     context.fillRect(player.x, player.y, player.width, player.height);
 
     // Draw the ball
-    context.fillStyle = "Black";
+    context.fillStyle = "brown";
     ball.point_x += ball.ballVelocityX;
     ball.point_y += ball.ballVelocityY;
     context.fillRect(ball.point_x, ball.point_y, ball.width, ball.height);
@@ -125,7 +127,7 @@ function update() {
     }
     else if((ball.point_y + ball.height) == boardHeight){
         //if ball touches bottom of canvas -> game over
-        context.font = "20 px sans-serif";
+        context.font = "20px sans-serif";
         //print the message of game over
         context.fillText("Game Over! \nPress Space to Restart.",80,400)
         //change the value of game over to true
@@ -141,7 +143,7 @@ function update() {
     }
     
     // draw the blocks
-    context.fillStyle = "pink";
+    context.fillStyle = "brown";
     for (let i = 0; i < blockArray.length; i++) 
     {
         let block = blockArray[i];
@@ -179,6 +181,15 @@ function update() {
         blockRows = Math.min(blockRows + 1, blockMaxRows);
         //create new blocks
         createBlocks();
+         //return the ball to the start position
+            ball = {
+                point_x: boardWidth/2,
+                point_y: boardHeight/2,
+                width: ball_width,
+                height: ball_height,
+                ballVelocityX: ball_velocityX,
+                ballVelocityY: ball_velocityY
+            }
     }
     context.font = "20px sans-serif";
     context.fillText(score, 10, 25);
@@ -310,7 +321,7 @@ function restartGame(){
 // play the brick hit sound
 function BrickHitSound() {
     const brickHitSound = document.getElementById("brickHitSound");
-
+    
     // Check if the sound is already playing, and if not, play it
     if (brickHitSound.paused || brickHitSound.ended) {
         brickHitSound.currentTime = 0;

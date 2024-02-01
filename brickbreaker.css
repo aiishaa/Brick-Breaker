@@ -4,7 +4,7 @@ body {
 
 #board {
     background-color: white;
-    border-top: 5px solid pink;
-    border-left: 5px solid  pink;
-    border-right: 5px solid  pink;
+    border-top: 5px solid rgba(174, 58, 8, 0.905);
+    border-left: 5px solid  rgba(174, 58, 8, 0.905);
+    border-right: 5px solid  rgba(174, 58, 8, 0.905);
 }
