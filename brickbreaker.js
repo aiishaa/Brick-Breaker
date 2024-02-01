@@ -49,12 +49,39 @@ let score = 0;
 // to handle game over
 let gameOver = false;
 
+///------------------ Functions to save and display highest score  ------------
+// Add this function to save the high score in local storage
+function saveHighScore() {
+    localStorage.setItem("highScore", score);
+}
+
+// Add this function to load the high score from local storage
+function loadHighScore() {
+    return localStorage.getItem("highScore") || 0;
+}
+
+// Add this function to initialize the high score
+function initializeHighScore() {
+    if (!loadHighScore()) {
+        saveHighScore();
+    }
+}
+
+// Add this function to update and display the highest score on the screen
+function updateHighScore() {
+    const currentHighScore = loadHighScore();
+    const highScoreElement = document.getElementById("highScore");
+    highScoreElement.textContent = "Highest Score: " + currentHighScore;
+}
+// -------------------------------------------------------------------------------
+
 window.onload = function() {
     board = document.getElementById("board");
     board.height = boardHeight;
     board.width = boardWidth;
     context = board.getContext("2d"); 
-
+    initializeHighScore();
+    updateHighScore();
     //draw initial player
     context.fillStyle="lightgreen";
     context.fillRect(player.x, player.y, player.width, player.height);
@@ -245,6 +272,10 @@ function createBlocks() {
 function restartGame(){
     //change the flag to false
     gameOver = false;
+
+    //save the current score before resetting  --> HIGHESTsCORE
+    saveHighScore();
+
     //return player to the start position 
     player = {
         x : boardWidth/2 - playerWidth/2,
@@ -270,6 +301,10 @@ function restartGame(){
     blockRows = 3;
     //recreate blocks
     createBlocks();
+
+    //update the displayed high score --> HIGHESTsCORE
+    updateHighScore();
+
 }
 
 // play the brick hit sound
