@@ -61,6 +61,8 @@ window.onload = function() {
 
     requestAnimationFrame(update);
     document.addEventListener("keydown", movePlayer);
+    // add the Mouse move eventListner
+    document.addEventListener("mousemove", handleMouseMove);
 
     //create blocks
     createBlocks();
@@ -174,6 +176,17 @@ function movePlayer(e) {
             player.x = nextplayerX;
         }
        
+    }
+}
+
+function handleMouseMove(e) {
+    // Update player position based on mouse x-coordinate
+    const mouseX = e.clientX - board.getBoundingClientRect().left;
+    const nextPlayerX = mouseX - player.width / 2;
+
+    // Ensure the player stays within the board boundaries
+    if (!outOfBounds(nextPlayerX)) {
+        player.x = nextPlayerX;
     }
 }
 
