@@ -111,17 +111,22 @@ function detectCollision(my_ball, my_paddle){
 
 
 function topCollision(my_ball, my_paddle){
+    
+    console.log("top");
     return detectCollision(my_ball, my_paddle) && ((my_ball.point_y + my_ball.height) >= my_paddle.y);
 }
 
 function bottomCollision(my_ball, my_paddle){
+    console.log("bottom");
     return detectCollision(my_ball, my_paddle) && ((my_paddle.y + my_paddle.height) >= my_ball.point_y);
 }
 
 function leftCollision(my_ball, my_paddle){
+    console.log("left");
     return detectCollision(my_ball, my_paddle) && ((my_ball.point_x + my_ball.width) >= my_paddle.x);
 }
 
 function rightCollision(my_ball, my_paddle){
+    console.log("right");
     return detectCollision(my_ball, my_paddle) && (my_paddle.x + my_paddle.width) >= my_ball.point_x;
 }
