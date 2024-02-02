@@ -144,24 +144,16 @@ function update() {
         ball.ballVelocityY *= -1;   // flip y direction up or down
     }
     
-    // draw the blocks
-    context.fillStyle = "brown";
-    for (let i = 0; i < blockArray.length; i++) 
-    {
+    for (let i = 0; i < blockArray.length; i++) {
         let block = blockArray[i];
-        if (!block.break) 
-        {
-            if (detectCollision(ball, block)) 
-            {
-                block.break = true;     // block is broken
-                ball.ballVelocityY *= -1;   // flip y direction up or down
-                score += 100;
-                blockCount -= 1;
-
-                // play the brick hit sound
-                BrickHitSound();
-            }
+    
+        if (!block.break) {
+            context.fillStyle = block.color || "brown";
             context.fillRect(block.x, block.y, block.width, block.height);
+    
+            if (detectCollision(ball, block)) {
+                handleBlockCollision(block);
+            }
         }
     }
 
@@ -190,6 +182,34 @@ function update() {
 function outOfBounds(xPosition) {
     return (xPosition < 0 || xPosition + playerWidth > boardWidth);
 }
+
+
+// Function to handle collisions with blocks .
+function handleBlockCollision(block) {
+    if (block.color === "red") {
+        block.hits--;
+
+        if (block.hits === 0) {
+            block.break = true;
+            score += 200; // Score for breaking red brick
+            blockCount--;
+            BrickHitSound();
+        } else {
+            // Change the color to brown after one hit
+            block.color = "brown";
+            ball.ballVelocityY *= -1;
+            score += 100; // Score for hitting red brick
+        }
+    } else {
+        block.break = true;
+        ball.ballVelocityY *= -1;
+        score += 100; // Score for breaking brown brick
+        blockCount--;
+        BrickHitSound();
+    }
+}
+
+
 
 function movePlayer(e) {
     //if the game is over and pressed space -> restart the game 
@@ -234,22 +254,27 @@ function detectCollision(my_ball, my_paddle){
 
 
 function createBlocks() {
-    blockArray = []; //clears the blockArray
+    blockArray = [];
     for (let c = 0; c < blockColumns; c++) {
         for (let r = 0; r < blockRows; r++) {
+            //make red bricks need two hits to break it
+            let isRedBrick = Math.random() < 0.2; // 20% chance to be red
+            let hits = isRedBrick ? 2 : 1; // Red bricks require 2 hits
+            let color = isRedBrick ? "red" : "brown"; // Red bricks are red, others are brown
             let block = {
-                x : blockX + c*blockWidth + c*10, //c*10 space 10 pixels apart columns (between them)
-                y : blockY + r*blockHeight + r*10, //r*10 space 10 pixels apart rows (between them)
-                width : blockWidth,
-                height : blockHeight,
-                break : false
-            }
+                x: blockX + c * blockWidth + c * 10,
+                y: blockY + r * blockHeight + r * 10,
+                width: blockWidth,
+                height: blockHeight,
+                break: false,
+                hits: hits,
+                color: color,
+            };
             blockArray.push(block);
         }
     }
     blockCount = blockArray.length;
 }
-
 //function to restart the game after gameOver
 function restartGame(){
     //change the flag to false
@@ -291,6 +316,6 @@ function restartGame(){
 
 // play the brick hit sound
 function BrickHitSound() {
-    const brickHitSound = new Audio('brick-dropped-on-other-bricks-14722.mp3');
+    const brickHitSound = new Audio("");
     brickHitSound.play();
 }
