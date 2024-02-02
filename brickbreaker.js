@@ -204,6 +204,7 @@ function outOfBounds(xPosition) {
     return (xPosition < 0 || xPosition + playerWidth > boardWidth);
 }
 
+
 function movePlayer(e) {
     //if the game is over and pressed space -> restart the game 
     if(gameOver){
@@ -268,22 +269,27 @@ function rightCollision(my_ball, my_paddle){
 }
 
 function createBlocks() {
-    blockArray = []; //clears the blockArray
+    blockArray = [];
     for (let c = 0; c < blockColumns; c++) {
         for (let r = 0; r < blockRows; r++) {
+            //make red bricks need two hits to break it
+            let isRedBrick = Math.random() < 0.2; // 20% chance to be red
+            let hits = isRedBrick ? 2 : 1; // Red bricks require 2 hits
+            let color = isRedBrick ? "red" : "brown"; // Red bricks are red, others are brown
             let block = {
-                x : blockX + c*blockWidth + c*10, //c*10 space 10 pixels apart columns (between them)
-                y : blockY + r*blockHeight + r*10, //r*10 space 10 pixels apart rows (between them)
-                width : blockWidth,
-                height : blockHeight,
-                break : false
-            }
+                x: blockX + c * blockWidth + c * 10,
+                y: blockY + r * blockHeight + r * 10,
+                width: blockWidth,
+                height: blockHeight,
+                break: false,
+                hits: hits,
+                color: color,
+            };
             blockArray.push(block);
         }
     }
     blockCount = blockArray.length;
 }
-
 //function to restart the game after gameOver
 function restartGame(){
     //change the flag to false
