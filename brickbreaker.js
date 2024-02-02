@@ -146,21 +146,18 @@ function update() {
     else if (leftCollision(ball, player) || rightCollision(ball, player)) {
         ball.ballVelocityX *= -1;   // flip x direction left or right
     }
-
-
     
-   for (let i = 0; i < blockArray.length; i++) {
+    for (let i = 0; i < blockArray.length; i++) {
         let block = blockArray[i];
-
+    
         if (!block.break) {
             context.fillStyle = block.color || "brown";
             context.fillRect(block.x, block.y, block.width, block.height);
-
+    
             if (detectCollision(ball, block)) {
                 handleBlockCollision(block);
             }
         }
-    
     }
 
     //create new levels after breaking all block
@@ -187,7 +184,9 @@ function update() {
 
 function outOfBounds(xPosition) {
     return (xPosition < 0 || xPosition + playerWidth > boardWidth);
-}//sara
+}
+
+
 // Function to handle collisions with blocks
 function handleBlockCollision(block) {
     if (block.color === "red") {
@@ -195,13 +194,14 @@ function handleBlockCollision(block) {
 
         if (block.hits === 0) {
             block.break = true;
-            score += 200; // Increase score by 200 for breaking red brick
+            score += 200; // Score for breaking red brick
             blockCount--;
             BrickHitSound();
         } else {
             // Change the color to brown after one hit
             block.color = "brown";
             ball.ballVelocityY *= -1;
+            score += 100; // Score for hitting red brick
         }
     } else {
         block.break = true;
@@ -211,7 +211,6 @@ function handleBlockCollision(block) {
         BrickHitSound();
     }
 }
-
 
 
 
@@ -254,10 +253,6 @@ function detectCollision(my_ball, my_paddle){
     && (my_ball.point_x < my_paddle.x + my_paddle.width)  // the ball's top left corner doesn't exceed the paddle's right top corner
     && (my_ball.point_y + my_ball.height > my_paddle.y)   // the ball's bottom left corner passes the paddle's left corner
     && (my_ball.point_y < my_paddle.y + my_paddle.height) // the ball's top left corner doesn't exceed the paddle's bottom left corner
-}
-
-if (detectCollision(ball, block)) {
-    handleBlockCollision(block);
 }
 
 function topCollision(my_ball, my_paddle){
