@@ -312,11 +312,6 @@ function restartGame(){
 
 // play the brick hit sound
 function BrickHitSound() {
-    const brickHitSound = document.getElementById("brickHitSound");
-    
-    // Check if the sound is already playing, and if not, play it
-    if (brickHitSound.paused || brickHitSound.ended) {
-        brickHitSound.currentTime = 0;
-        brickHitSound.play();
-    }
+    const brickHitSound = new Audio('brick-dropped-on-other-bricks-14722.mp3');
+    brickHitSound.play();
 }
