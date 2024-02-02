@@ -52,11 +52,21 @@ let score = 0;
 let gameOver = false;
 
 ///------------------ Functions to save and display highest score  ------------
-// Add this function to save the high score in local storage
-function saveHighScore() {
-    localStorage.setItem("highScore", score);
+// Add this function to update and display the highest score on the screen
+function updateHighScore() {
+    const currentHighScore = loadHighScore();
+    localStorage.setItem("highScore", Math.max(currentHighScore, score)); //- to avoid the lower score to override the higher score  
+    const highScoreElement = document.getElementById("highScore");
+    highScoreElement.textContent = "Highest Score: " + loadHighScore();
 }
 
+// Add this function to save the high score in local storage - to avoid the lower score to override the higher score  
+function saveHighScore() {
+    const currentHighScore = loadHighScore();
+    if (score > currentHighScore) {
+        localStorage.setItem("highScore", score);
+    }
+}
 // Add this function to load the high score from local storage
 function loadHighScore() {
     return localStorage.getItem("highScore") || 0;
@@ -69,12 +79,7 @@ function initializeHighScore() {
     }
 }
 
-// Add this function to update and display the highest score on the screen
-function updateHighScore() {
-    const currentHighScore = loadHighScore();
-    const highScoreElement = document.getElementById("highScore");
-    highScoreElement.textContent = "Highest Score: " + currentHighScore;
-}
+
 // -------------------------------------------------------------------------------
 
 window.onload = function() {
