@@ -146,36 +146,21 @@ function update() {
     else if (leftCollision(ball, player) || rightCollision(ball, player)) {
         ball.ballVelocityX *= -1;   // flip x direction left or right
     }
+
+
     
-    // draw the blocks
-    context.fillStyle = "brown";
-    for (let i = 0; i < blockArray.length; i++) 
-    {
+   for (let i = 0; i < blockArray.length; i++) {
         let block = blockArray[i];
-        if (!block.break) 
-        {
-            if (topCollision(ball, block) || bottomCollision(ball, block)) 
-            {
-                block.break = true;     // block is broken
-                ball.ballVelocityY *= -1;   // flip y direction up or down
-                score += 100;
-                blockCount -= 1;
 
-                // play the brick hit sound
-                BrickHitSound();
-            }
-            else if (leftCollision(ball, block) || rightCollision(ball, block)) 
-            {
-                block.break = true;     // block is broken
-                ball.ballVelocityX *= -1;   // flip x direction left or right
-                score += 100;
-                blockCount -= 1;
-
-                // play the brick hit sound
-                BrickHitSound()
-            }
+        if (!block.break) {
+            context.fillStyle = block.color || "brown";
             context.fillRect(block.x, block.y, block.width, block.height);
+
+            if (detectCollision(ball, block)) {
+                handleBlockCollision(block);
+            }
         }
+    
     }
 
     //create new levels after breaking all block
@@ -202,6 +187,28 @@ function update() {
 
 function outOfBounds(xPosition) {
     return (xPosition < 0 || xPosition + playerWidth > boardWidth);
+}
+function handleBlockCollision(block) {
+    if (block.color === "red") {
+        block.hits--;
+
+        if (block.hits === 0) {
+            block.break = true;
+            score += 200; // Score for breaking red brick
+            blockCount--;
+            BrickHitSound();
+        } else {
+            // Change the color to brown after one hit
+            block.color = "brown";
+            ball.ballVelocityY *= -1;
+        }
+    } else {
+        block.break = true;
+        ball.ballVelocityY *= -1;
+        score += 100; // Score for breaking brown brick
+        blockCount--;
+        BrickHitSound();
+    }
 }
 
 
@@ -246,6 +253,9 @@ function detectCollision(my_ball, my_paddle){
     && (my_ball.point_y < my_paddle.y + my_paddle.height) // the ball's top left corner doesn't exceed the paddle's bottom left corner
 }
 
+if (detectCollision(ball, block)) {
+    handleBlockCollision(block);
+}
 
 function topCollision(my_ball, my_paddle){
     
