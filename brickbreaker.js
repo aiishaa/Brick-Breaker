@@ -154,7 +154,9 @@ function update() {
             context.fillStyle = block.color || "brown";
             context.fillRect(block.x, block.y, block.width, block.height);
     
-            
+            if (detectCollision(ball, block)) {
+                handleBlockCollision(block);
+            }
         }
     }
 
@@ -182,6 +184,32 @@ function update() {
 
 function outOfBounds(xPosition) {
     return (xPosition < 0 || xPosition + playerWidth > boardWidth);
+}
+
+
+// Function to handle collisions with blocks .
+function handleBlockCollision(block) {
+    if (block.color === "red") {
+        block.hits--;
+
+        if (block.hits === 0) {
+            block.break = true;
+            score += 200; // Score for breaking red brick
+            blockCount--;
+            BrickHitSound();
+        } else {
+            // Change the color to brown after one hit
+            block.color = "brown";
+            ball.ballVelocityY *= -1;
+            score += 100; // Score for hitting red brick
+        }
+    } else {
+        block.break = true;
+        ball.ballVelocityY *= -1;
+        score += 100; // Score for breaking brown brick
+        blockCount--;
+        BrickHitSound();
+    }
 }
 
 
@@ -252,8 +280,7 @@ function createBlocks() {
     blockArray = [];
     for (let c = 0; c < blockColumns; c++) {
         for (let r = 0; r < blockRows; r++) {
-
-            //make red bricks need two hits to break it .
+            //make red bricks need two hits to break it
             let isRedBrick = Math.random() < 0.2; // 20% chance to be red
             let hits = isRedBrick ? 2 : 1; // Red bricks require 2 hits
             let color = isRedBrick ? "red" : "brown"; // Red bricks are red, others are brown
@@ -312,6 +339,11 @@ function restartGame(){
 
 // play the brick hit sound
 function BrickHitSound() {
-    const brickHitSound = new Audio('brick-dropped-on-other-bricks-14722.mp3');
-    brickHitSound.play();
+    const brickHitSound = document.getElementById("brickHitSound");
+    
+    // Check if the sound is already playing, and if not, play it
+    if (brickHitSound.paused || brickHitSound.ended) {
+        brickHitSound.currentTime = 0;
+        brickHitSound.play();
+    }
 }
