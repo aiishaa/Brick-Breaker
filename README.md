@@ -52,3 +52,29 @@ function detectCollision(my_ball, my_paddle){
     && (my_ball.point_y <= my_paddle.y + my_paddle.height) // the ball's top left corner doesn't exceed the paddle's bottom left corner
 }
 ```
+# 3) Collision Handling:
+If the Ball Hits Red Block, then it's color turns into Brown and must be Hitten Again to Break.
+```
+function handleBlockCollision(block) {
+    if (block.color === "red") {
+        block.hits--;
+        if (block.hits === 0) {
+            block.break = true;
+            score += 200; // Score for breaking red brick
+            blockCount--;
+            BrickHitSound();
+        } else {
+            // Change the color to brown after one hit
+            block.color = "brown";
+            ball.ballVelocityY *= -1;
+            score += 100; // Score for hitting red brick
+        }
+    } else {
+        block.break = true;
+        ball.ballVelocityY *= -1;
+        score += 100; // Score for breaking brown brick
+        blockCount--;
+        BrickHitSound();
+    }
+}
+```
