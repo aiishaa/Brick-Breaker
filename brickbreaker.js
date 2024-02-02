@@ -140,11 +140,8 @@ function update() {
     }
 
     // Bouncing the ball off the paddle
-    if (topCollision(ball, player) || bottomCollision(ball, player)) {
+    if (detectCollision(ball, player)) {
         ball.ballVelocityY *= -1;   // flip y direction up or down
-    }
-    else if (leftCollision(ball, player) || rightCollision(ball, player)) {
-        ball.ballVelocityX *= -1;   // flip x direction left or right
     }
     
     // draw the blocks
@@ -154,7 +151,7 @@ function update() {
         let block = blockArray[i];
         if (!block.break) 
         {
-            if (topCollision(ball, block) || bottomCollision(ball, block)) 
+            if (detectCollision(ball, block)) 
             {
                 block.break = true;     // block is broken
                 ball.ballVelocityY *= -1;   // flip y direction up or down
@@ -163,16 +160,6 @@ function update() {
 
                 // play the brick hit sound
                 BrickHitSound();
-            }
-            else if (leftCollision(ball, block) || rightCollision(ball, block)) 
-            {
-                block.break = true;     // block is broken
-                ball.ballVelocityX *= -1;   // flip x direction left or right
-                score += 100;
-                blockCount -= 1;
-
-                // play the brick hit sound
-                BrickHitSound()
             }
             context.fillRect(block.x, block.y, block.width, block.height);
         }
@@ -239,33 +226,12 @@ function handleMouseMove(e) {
 }
 
 function detectCollision(my_ball, my_paddle){
-    return (my_ball.point_x + my_ball.width > my_paddle.x)  // the ball's top right corner passes the paddle's top left corner 
-    && (my_ball.point_x < my_paddle.x + my_paddle.width)  // the ball's top left corner doesn't exceed the paddle's right top corner
-    && (my_ball.point_y + my_ball.height > my_paddle.y)   // the ball's bottom left corner passes the paddle's left corner
-    && (my_ball.point_y < my_paddle.y + my_paddle.height) // the ball's top left corner doesn't exceed the paddle's bottom left corner
+    return (my_ball.point_x + my_ball.width >= my_paddle.x)  // the ball's top right corner passes the paddle's top left corner 
+    && (my_ball.point_x <= my_paddle.x + my_paddle.width)  // the ball's top left corner doesn't exceed the paddle's right top corner
+    && (my_ball.point_y + my_ball.height >= my_paddle.y)   // the ball's bottom left corner passes the paddle's left corner
+    && (my_ball.point_y <= my_paddle.y + my_paddle.height) // the ball's top left corner doesn't exceed the paddle's bottom left corner
 }
 
-
-function topCollision(my_ball, my_paddle){
-    
-    console.log("top");
-    return detectCollision(my_ball, my_paddle) && ((my_ball.point_y + my_ball.height) >= my_paddle.y);
-}
-
-function bottomCollision(my_ball, my_paddle){
-    console.log("bottom");
-    return detectCollision(my_ball, my_paddle) && ((my_paddle.y + my_paddle.height) >= my_ball.point_y);
-}
-
-function leftCollision(my_ball, my_paddle){
-    console.log("left");
-    return detectCollision(my_ball, my_paddle) && ((my_ball.point_x + my_ball.width) >= my_paddle.x);
-}
-
-function rightCollision(my_ball, my_paddle){
-    console.log("right");
-    return detectCollision(my_ball, my_paddle) && (my_paddle.x + my_paddle.width) >= my_ball.point_x;
-}
 
 function createBlocks() {
     blockArray = []; //clears the blockArray
