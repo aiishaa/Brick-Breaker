@@ -139,7 +139,7 @@ function update() {
             //if ball touches bottom of canvas -> game over
             context.font = "20px sans-serif";
             //print the message of game over
-            context.fillText("Game Over! \nPress Space to Restart.",80,400)
+            context.fillText("Game Over! \nPress Enter to Restart.",80,400)
             //change the value of game over to true
             gameOver = true;
         }
@@ -218,9 +218,9 @@ function handleBlockCollision(block) {
 
 
 function movePlayer(e) {
-    //if the game is over and pressed space -> restart the game 
+    //if the game is over and pressed enter -> restart the game 
     if(gameOver){
-        if(e.code == "Space"){
+        if(e.code == "Enter"){
             restartGame();
         }
     }
