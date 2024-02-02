@@ -1,11 +1,8 @@
 # Brick-Breaker Game
 This is an Interesting and Funny Game where you have to Break Bricks using the Ball and the Paddle.This Game is Also Known as "Block Breaker". When you Break a Block there is a Chance that it will Give you a Bonus. Once all the Bricks are Broken, you will Move to the Next Level!
 
-<<<<<<< HEAD
-=======
-https://github.com/aiishaa/Brick-Breaker/assets/71197108/7d30932a-2de0-4cf7-b050-49c801fdbd1c
+https://github.com/aiishaa/Brick-Breaker/assets/71197108/c0c0c766-db01-4af4-bbb5-23117d57153e
 
->>>>>>> 757f3f45f32688d102b8ce9c7af37d39e57d97ed
 
 # Building the Game 
 <p align="center">
@@ -47,7 +44,8 @@ function movePlayer(e) {
 
 # 2) Collision Detection:
 To Check Whether a Collision Occurred or Not.
-```function detectCollision(my_ball, my_paddle){
+```
+function detectCollision(my_ball, my_paddle){
     return (my_ball.point_x + my_ball.width >= my_paddle.x)  // the ball's top right corner passes the paddle's top left corner 
     && (my_ball.point_x <= my_paddle.x + my_paddle.width)  // the ball's top left corner doesn't exceed the paddle's right top corner
     && (my_ball.point_y + my_ball.height >= my_paddle.y)   // the ball's bottom left corner passes the paddle's left corner
