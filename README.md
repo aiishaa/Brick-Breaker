@@ -115,3 +115,10 @@ New Level Starts When all the Blocks are Hitten. By the End of  Each Level a Bon
             }
     }
 ```
+
+# Contributors:
+- Aisha Fathy (https://github.com/aiishaa)
+- Alaa Alshitany (https://github.com/alaa-alshitany)
+- Nadin AbdElazim (https://github.com/NadeenAbdElazimAZ)
+- Sara Eldwiny (https://github.com/Sara-Eldwiny)
+- Jasmine Walid (https://github.com/jasminewalid)
