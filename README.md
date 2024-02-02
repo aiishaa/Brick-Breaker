@@ -1,11 +1,12 @@
 # Brick-Breaker Game
 This is an Interesting and Funny Game where you have to Break Bricks using the Ball and the Paddle.This Game is Also Known as "Block Breaker". When you Break a Block there is a Chance that it will Give you a Bonus. Once all the Bricks are Broken, you will Move to the Next Level!
 
+https://github.com/aiishaa/Brick-Breaker/assets/71197108/7d30932a-2de0-4cf7-b050-49c801fdbd1c
+
+
 # Building the Game 
 <p align="center">
-  <a href="https://skillicons.dev">
     <img src="https://skillicons.dev/icons?i=js,html,css" />
-  </a>
 </p>
 
  1) Meeting with the Team to Discuss the Features.
