@@ -187,14 +187,15 @@ function update() {
 
 function outOfBounds(xPosition) {
     return (xPosition < 0 || xPosition + playerWidth > boardWidth);
-}
+}//sara
+// Function to handle collisions with blocks
 function handleBlockCollision(block) {
     if (block.color === "red") {
         block.hits--;
 
         if (block.hits === 0) {
             block.break = true;
-            score += 200; // Score for breaking red brick
+            score += 200; // Increase score by 200 for breaking red brick
             blockCount--;
             BrickHitSound();
         } else {
@@ -210,6 +211,8 @@ function handleBlockCollision(block) {
         BrickHitSound();
     }
 }
+
+
 
 
 function movePlayer(e) {
