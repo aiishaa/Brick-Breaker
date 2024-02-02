@@ -93,3 +93,25 @@ function loadHighScore() {
     return localStorage.getItem("highScore") || 0;
 }
 ```
+
+# 5) New Levels:
+New Level Starts When all the Blocks are Hitten. By the End of  Each Level a Bonus is Added.
+```
+    if(blockCount == 0){
+        //adding bonus for clearing the blocks (100 point for each block)
+        score+= 100*blockColumns*blockRows;
+        //increase the number of rows of blocks for the next level
+        blockRows = Math.min(blockRows + 1, blockMaxRows);
+        //create new blocks
+        createBlocks();
+        //return the ball to the start position
+            ball = {
+                point_x: boardWidth/2,
+                point_y: boardHeight/2,
+                width: ball_width,
+                height: ball_height,
+                ballVelocityX: ball_velocityX,
+                ballVelocityY: ball_velocityY
+            }
+    }
+```
