@@ -316,6 +316,6 @@ function restartGame(){
 
 // play the brick hit sound
 function BrickHitSound() {
-    const brickHitSound = new Audio("");
+    const brickHitSound = new Audio("brick-dropped-on-other-bricks-14722.mp3");
     brickHitSound.play();
 }
