@@ -48,6 +48,9 @@ let blockY = 45;
 //scoring variable
 let score = 0;
 
+// to handle game Pause
+let gamePaused = false;
+
 // to handle game over
 let gameOver = false;
 
@@ -97,86 +100,89 @@ window.onload = function() {
     document.addEventListener("keydown", movePlayer);
     // add the Mouse move eventListner
     document.addEventListener("mousemove", handleMouseMove);
-
+    // add the space eventListener to pause or resume the game
+    document.addEventListener("keydown", handlePauseResume);
     //create blocks
     createBlocks();
 }
 
 function update() {
-    requestAnimationFrame(update);
-    //check if the game is over -> return
-    if(gameOver){
-        return;
-    }
-    context.clearRect(0, 0, board.width, board.height);
+    if (!gamePaused) {
+        requestAnimationFrame(update);
+        //check if the game is over -> return
+        if(gameOver){
+            return;
+        }
+        context.clearRect(0, 0, board.width, board.height);
 
-    // player
-    context.fillStyle = "brown";
-    context.fillRect(player.x, player.y, player.width, player.height);
+        // player
+        context.fillStyle = "brown";
+        context.fillRect(player.x, player.y, player.width, player.height);
 
-    // Draw the ball
-    context.fillStyle = "brown";
-    ball.point_x += ball.ballVelocityX;
-    ball.point_y += ball.ballVelocityY;
-    context.fillRect(ball.point_x, ball.point_y, ball.width, ball.height);
+        // Draw the ball
+        context.fillStyle = "brown";
+        ball.point_x += ball.ballVelocityX;
+        ball.point_y += ball.ballVelocityY;
+        context.fillRect(ball.point_x, ball.point_y, ball.width, ball.height);
 
-    // Bounce the ball off the wall
-    // if the ball touch the top corner of the canvas
-    if (ball.point_y <= 0) { 
-        // if ball touches top of canvas
-        ball.ballVelocityY *= -1; //reverse direction
-    }
-    else if (ball.point_x <= 0 || (ball.point_x + ball.width >= boardWidth)) {
-        // if ball touches left or right of canvas
-        ball.ballVelocityX *= -1; //reverse direction
-    }
-    else if((ball.point_y + ball.height) == boardHeight){
-        //if ball touches bottom of canvas -> game over
-        context.font = "20px sans-serif";
-        //print the message of game over
-        context.fillText("Game Over! \nPress Space to Restart.",80,400)
-        //change the value of game over to true
-        gameOver = true;
-    }
+        // Bounce the ball off the wall
+        // if the ball touch the top corner of the canvas
+        if (ball.point_y <= 0) { 
+            // if ball touches top of canvas
+            ball.ballVelocityY *= -1; //reverse direction
+        }
+        else if (ball.point_x <= 0 || (ball.point_x + ball.width >= boardWidth)) {
+            // if ball touches left or right of canvas
+            ball.ballVelocityX *= -1; //reverse direction
+        }
+        else if((ball.point_y + ball.height) == boardHeight){
+            //if ball touches bottom of canvas -> game over
+            context.font = "20px sans-serif";
+            //print the message of game over
+            context.fillText("Game Over! \nPress Space to Restart.",80,400)
+            //change the value of game over to true
+            gameOver = true;
+        }
 
-    // Bouncing the ball off the paddle
-    if (detectCollision(ball, player)) {
-        ball.ballVelocityY *= -1;   // flip y direction up or down
-    }
-    
-    for (let i = 0; i < blockArray.length; i++) {
-        let block = blockArray[i];
-    
-        if (!block.break) {
-            context.fillStyle = block.color || "brown";
-            context.fillRect(block.x, block.y, block.width, block.height);
-    
-            if (detectCollision(ball, block)) {
-                handleBlockCollision(block);
+        // Bouncing the ball off the paddle
+        if (detectCollision(ball, player)) {
+            ball.ballVelocityY *= -1;   // flip y direction up or down
+        }
+        
+        for (let i = 0; i < blockArray.length; i++) {
+            let block = blockArray[i];
+        
+            if (!block.break) {
+                context.fillStyle = block.color || "brown";
+                context.fillRect(block.x, block.y, block.width, block.height);
+        
+                if (detectCollision(ball, block)) {
+                    handleBlockCollision(block);
+                }
             }
         }
-    }
 
-    //create new levels after breaking all block
-    if(blockCount == 0){
-        //adding bonus for clearing the blocks (100 point for each block)
-        score+= 100*blockColumns*blockRows;
-        //increase the number of rows of blocks for the next level
-        blockRows = Math.min(blockRows + 1, blockMaxRows);
-        //create new blocks
-        createBlocks();
-         //return the ball to the start position
-            ball = {
-                point_x: boardWidth/2,
-                point_y: boardHeight/2,
-                width: ball_width,
-                height: ball_height,
-                ballVelocityX: ball_velocityX,
-                ballVelocityY: ball_velocityY
-            }
+        //create new levels after breaking all block
+        if(blockCount == 0){
+            //adding bonus for clearing the blocks (100 point for each block)
+            score+= 100*blockColumns*blockRows;
+            //increase the number of rows of blocks for the next level
+            blockRows = Math.min(blockRows + 1, blockMaxRows);
+            //create new blocks
+            createBlocks();
+            //return the ball to the start position
+                ball = {
+                    point_x: boardWidth/2,
+                    point_y: boardHeight/2,
+                    width: ball_width,
+                    height: ball_height,
+                    ballVelocityX: ball_velocityX,
+                    ballVelocityY: ball_velocityY
+                }
+        }
+        context.font = "20px sans-serif";
+        context.fillText(score, 10, 25);
     }
-    context.font = "20px sans-serif";
-    context.fillText(score, 10, 25);
 }
 
 function outOfBounds(xPosition) {
@@ -242,6 +248,19 @@ function handleMouseMove(e) {
     // Ensure the player stays within the board boundaries
     if (!outOfBounds(nextPlayerX)) {
         player.x = nextPlayerX;
+    }
+}
+
+// Handle the Pause and Resume events
+function handlePauseResume(e){
+    if (e.code === "Space") {
+        // Handle Space key for pause/resume
+        if (gamePaused) {
+            gamePaused = false; // Resume the game
+            requestAnimationFrame(update);
+        } else {
+            gamePaused = true; // Pause the game
+        }
     }
 }
 
