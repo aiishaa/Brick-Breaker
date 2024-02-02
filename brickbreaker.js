@@ -253,7 +253,7 @@ function createBlocks() {
     for (let c = 0; c < blockColumns; c++) {
         for (let r = 0; r < blockRows; r++) {
 
-            //make red bricks need two hits to break it .
+            //make red bricks need two hits to break it
             let isRedBrick = Math.random() < 0.2; // 20% chance to be red
             let hits = isRedBrick ? 2 : 1; // Red bricks require 2 hits
             let color = isRedBrick ? "red" : "brown"; // Red bricks are red, others are brown
