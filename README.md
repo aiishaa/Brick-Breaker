@@ -52,8 +52,8 @@ function detectCollision(my_ball, my_paddle){
     && (my_ball.point_y <= my_paddle.y + my_paddle.height) // the ball's top left corner doesn't exceed the paddle's bottom left corner
 }
 ```
-# 3) Collision Handling:
-If the Ball Hits Red Block, then it's color turns into Brown and must be Hitten Again to Break.
+# 3) Collision Handling & Scoring System:
+If the Ball Hits Red Block, then it's color turns into Brown and must be Hitten Again to Break. Red Block = 200 point, Brown Block = 100 point.
 ```
 function handleBlockCollision(block) {
     if (block.color === "red") {
@@ -76,5 +76,20 @@ function handleBlockCollision(block) {
         blockCount--;
         BrickHitSound();
     }
+}
+```
+
+# 4) Saving Progress:
+To save Highest Score of all scores which user gets and Display it at Bottom Border.
+```
+function saveHighScore() {
+    const currentHighScore = loadHighScore();
+    if (score > currentHighScore) {
+        localStorage.setItem("highScore", score);
+    }
+}
+
+function loadHighScore() {
+    return localStorage.getItem("highScore") || 0;
 }
 ```
