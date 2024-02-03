@@ -339,6 +339,11 @@ function BrickHitSound() {
     brickHitSound.play();
 }
 
+//retrieves the last high score from the local storage
+function loadHighScore() {
+    return localStorage.getItem("highScore") || 0;
+}
+
 function showGameOverPopup(playerScore) {
     const gameOverPopup = document.getElementById("gameOverPopup");
     const scoreDisplay = document.getElementById("scoreDisplay");
