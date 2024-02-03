@@ -4,7 +4,7 @@ let boardWidth = 500;
 let boardHeight = 500;
 let context; 
 
-//playerbar variables
+//player bar variables
 let playerWidth = 80; 
 let playerHeight = 10;
 let playerVelocityX = 10; 
@@ -337,4 +337,24 @@ function restartGame(){
 function BrickHitSound() {
     const brickHitSound = new Audio("brick-dropped-on-other-bricks-14722.mp3");
     brickHitSound.play();
+}
+
+function showGameOverPopup(playerScore) {
+    const gameOverPopup = document.getElementById("gameOverPopup");
+    const scoreDisplay = document.getElementById("scoreDisplay");
+    const highScoreDisplay = document.getElementById("highScoreDisplay");
+
+    // Retrieve the latest high score from local storage
+    const highScore = loadHighScore();
+
+    // Update the score display in the pop-up
+    scoreDisplay.textContent = "Your Score: " + playerScore;
+    highScoreDisplay.textContent = "High Score: " + highScore;
+
+    // Play game over sound
+    const gameOverSound = document.getElementById("gameOverSound");
+    gameOverSound.play();
+
+    gameOverPopup.style.display = "block";
+    gameOverPopup.style.animation = "fadeIn 0.5s";
 }
