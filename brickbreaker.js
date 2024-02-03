@@ -344,7 +344,8 @@ function loadHighScore() {
     return localStorage.getItem("highScore") || 0;
 }
 
-function showGameOverPopup(playerScore) {
+function showGameOverPopup(playerScore) 
+{
     const gameOverPopup = document.getElementById("gameOverPopup");
     const scoreDisplay = document.getElementById("scoreDisplay");
     const highScoreDisplay = document.getElementById("highScoreDisplay");
